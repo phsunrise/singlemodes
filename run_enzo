@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd $SCRATCH
+
 c=1
 while true
 do
