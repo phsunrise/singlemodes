@@ -22,8 +22,5 @@ do
 done
 mv estd.out estd.out.$c
 
-module load intelmpi
-#srun  $HOME/enzo-dev/src/enzo/enzo.exe -d -r DD0041/output_0041  >& estd.out  
-#srun $HOME/enzo-dev/src/enzo/enzo.exe -d SingleModeCosmology.enzo  >& estd.out
-mpirun $HOME/enzo-dev/src/enzo/enzo.exe -d SingleModeCosmology.enzo
->& estd.out 
+python $HOME/singlemodes/power_spectrum_cic.py
+python $HOME/singlemodes/yt_plots.py
