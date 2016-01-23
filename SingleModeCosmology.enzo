@@ -1,0 +1,57 @@
+# Relevant Section of Enzo Paramter File (NOT COMPLETE!) 
+ProblemType                              = 30      // cosmology simulation
+TopGridRank                              = 3
+TopGridDimensions                        = 256 256 256
+SelfGravity                              = 1       // gravity on
+TopGridGravityBoundary                   = 0       // Periodic BC for gravity
+LeftFaceBoundaryCondition                = 3 3 3   // same for fluid
+RightFaceBoundaryCondition               = 3 3 3
+RefineBy                                 = 2
+
+#
+CosmologySimulationOmegaBaryonNow        = 0
+CosmologySimulationOmegaCDMNow           = 1
+CosmologySimulationParticleVelocityName = ParticleVelocities
+CosmologySimulationParticlePositionName = ParticlePositions
+#
+#
+#  define cosmology parameters
+#
+ComovingCoordinates                      = 1       // Expansion ON
+CosmologyOmegaMatterNow                  = 1
+CosmologyOmegaLambdaNow                  = 0
+CosmologyHubbleConstantNow               = 0.7     // in 100 km/s/Mpc
+CosmologyComovingBoxSize                 = 300    // in Mpc/h
+CosmologyMaxExpansionRate                = 0.015   // maximum allowed delta(a)/a
+CosmologyInitialRedshift                 = 100      //
+CosmologyFinalRedshift                   = 0       //
+GravitationalConstant                    = 1       // this must be true for cosmology
+#
+#
+ParallelRootGridIO                       = 1
+ParallelParticleIO                       = 1
+#PartitionNestedGrids                     = 1
+CosmologySimulationNumberOfInitialGrids  = 1
+
+
+MaximumRefinementLevel = 1
+
+StaticHierarchy = 1 // Refine or not?
+CellFlaggingMethod = 4
+MinimumOverDensityForRefinement = 2
+
+
+#dtDataDump = 50.
+CycleSkipDataDump = 30
+
+InlineHaloFinder               = 1
+HaloFinderSubfind              = 0
+HaloFinderCycleSkip            = 0
+HaloFinderRunAfterOutput       = 1
+HaloFinderOutputParticleList   = 0
+HaloFinderMinimumSize          = 50
+HaloFinderLinkingLength        = 0.100000
+
+OutputSmoothedDarkMatter = 0
+#WritePotential = 1
+PotentialIterations = 40
