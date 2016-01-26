@@ -25,5 +25,4 @@ done
 mv estd.out estd.out.$c
 
 module load intelmpi 
-srun $HOME/enzo-dev/src/ring/ring.exe pv ParticlePositions ParticleVelocities
-srun $HOME/enzo-dev/src/enzo/enzo.exe SingleModeCosmology.enzo >& output.log
+srun $HOME/enzo-dev/src/enzo/enzo.exe SingleModeCosmology.enzo >& estd.out 
