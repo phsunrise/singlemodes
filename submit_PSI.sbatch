@@ -3,7 +3,7 @@
 #SBATCH --job-name=single_mode_enzo
 #SBATCH --output=sme.out
 #SBATCH --error=sme.err
-#SBATCH --time=71:00:00
+#SBATCH --time=20:00:00
 #SBATCH --qos=slac
 #SBATCH --nodes=4
 #SBATCH --mem=60000
