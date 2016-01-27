@@ -3,11 +3,11 @@
 #SBATCH --job-name=single_mode_enzo
 #SBATCH --output=sme.out
 #SBATCH --error=sme.err
-#SBATCH --time=71:00:00
-#SBATCH --qos=slac
+#SBATCH --time=20:00:00
+##SBATCH --qos=iric
 #SBATCH --nodes=4
 #SBATCH --mem=60000
-#SBATCH --partition=slac
+##SBATCH --partition=iric
 #SBATCH --ntasks-per-node=16
 #SBATCH --mail-type=END
 #SBATCH --mail-user=phsun@stanford.edu
