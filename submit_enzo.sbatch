@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#SBATCH --job-name=single_mode_enzo
+#SBATCH --job-name=enzo
 #SBATCH --output=sme.out
 #SBATCH --error=sme.err
 #SBATCH --time=20:00:00
