@@ -4,11 +4,13 @@
 #SBATCH --output=sme.out
 #SBATCH --error=sme.err
 #SBATCH --time=20:00:00
-#SBATCH --qos=slac
-#SBATCH --nodes=4
+#SBATCH --qos=iric
+##SBATCH --nodes=1
 #SBATCH --mem=60000
-#SBATCH --partition=slac
-#SBATCH --ntasks-per-node=16
+#SBATCH --partition=iric
+##SBATCH --ntasks-per-node=1
+#SBATCH --mail-type=END
+#SBATCH --mail-user=phsun@stanford.edu
 
 #source $HOME/yt-x86_64/bin/activate
 
@@ -23,4 +25,5 @@ done
 mv estd.out estd.out.$c
 
 module load intelmpi
-srun  python $SCRATCH/voxelize.py
+python $HOME/singlemodes/voxelize.py
+python $HOME/singlemodes/power_spectrum_PSI.py

@@ -11,9 +11,13 @@ RefineBy                                 = 2
 #
 CosmologySimulationOmegaBaryonNow        = 0
 CosmologySimulationOmegaCDMNow           = 1
-CosmologySimulationParticleVelocityName = ParticleVelocities
-CosmologySimulationParticlePositionName = ParticlePositions
-#
+CosmologySimulationCalculatePositions    = 1
+CosmologySimulationParticleVelocity1Name = ic.enzo/ParticleVelocities_x
+CosmologySimulationParticleVelocity2Name = ic.enzo/ParticleVelocities_y
+CosmologySimulationParticleVelocity3Name = ic.enzo/ParticleVelocities_z
+CosmologySimulationParticleDisplacement1Name = ic.enzo/ParticleDisplacements_x
+CosmologySimulationParticleDisplacement2Name = ic.enzo/ParticleDisplacements_y
+CosmologySimulationParticleDisplacement3Name = ic.enzo/ParticleDisplacements_z
 #
 #  define cosmology parameters
 #
@@ -44,13 +48,13 @@ MinimumOverDensityForRefinement = 2
 #dtDataDump = 50.
 CycleSkipDataDump = 30
 
-InlineHaloFinder               = 1
-HaloFinderSubfind              = 0
-HaloFinderCycleSkip            = 0
-HaloFinderRunAfterOutput       = 1
-HaloFinderOutputParticleList   = 0
-HaloFinderMinimumSize          = 50
-HaloFinderLinkingLength        = 0.100000
+#InlineHaloFinder               = 1
+#HaloFinderSubfind              = 0
+#HaloFinderCycleSkip            = 0
+#HaloFinderRunAfterOutput       = 1
+#HaloFinderOutputParticleList   = 0
+#HaloFinderMinimumSize          = 50
+#HaloFinderLinkingLength        = 0.100000
 
 OutputSmoothedDarkMatter = 0
 #WritePotential = 1

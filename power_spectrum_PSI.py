@@ -9,8 +9,8 @@ import tables
 fig, ax = plt.subplots() 
 
 i = 0
-while os.path.isfile("density%04d.h5" % i):
-    f = tables.open_file("density%04d.h5" % i, mode = 'r')
+while os.path.isdir("DD%04d" % i):
+    f = tables.open_file("DD%04d/density_PSI.h5" % i, mode = 'r')
     density = np.array(f.get_node("/density"))
     f.close()
 
