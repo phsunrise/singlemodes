@@ -18,6 +18,12 @@ while os.path.isdir("DD%04d" % i):
     os.chdir("DD%04d" % i)
     print "current path: ", os.getcwd()
 
+    if os.path.exists("density_PSI.h5"):
+        print "density field already exists!"
+        os.chdir(currentpath)
+        i += 1
+        continue
+
     # write the batch script file
     f = open("submit_PSI_%04d.sbatch" % i, 'w')
     
