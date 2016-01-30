@@ -3,7 +3,7 @@
 #SBATCH --job-name=enzo
 #SBATCH --output=sme.out
 #SBATCH --error=sme.err
-#SBATCH --time=20:00:00
+#SBATCH --time=1:00:00
 #SBATCH --qos=iric
 #SBATCH --nodes=4
 #SBATCH --mem=60000

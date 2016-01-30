@@ -17,4 +17,4 @@ pos = pos[np.argsort(ids),:]
 pos = pos.reshape(np.append(dims, 3)).astype(np.float64, order='C')
 
 for i in xrange(dims[0]):
-    print "i =", i, "(x,y,z) =", pos[0,0,i,:] 
+    print "i =", i, "(x,y,z) =", pos[5,8,i,:] 
