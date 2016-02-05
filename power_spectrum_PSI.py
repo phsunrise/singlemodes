@@ -2,9 +2,11 @@ import os
 import sys
 sys.path.insert(0, "/home/phsun/PyPSI")
 import PyPSI as psi
+from powerSpectrum import powerSpectrum
 import matplotlib.pyplot as plt
 import numpy as np
-import tables 
+import tables
+import yt
 
 fig, ax = plt.subplots() 
 
@@ -14,16 +16,22 @@ while os.path.isdir("DD%04d" % i):
     density = np.array(f.get_node("/density"))
     f.close()
 
+    ## get redshift
+    ds = yt.load("DD%04d/data%04d" % (i,i))
+    z = ds.current_redshift
+
     ## calculate power spectrum
-    power, k = psi.powerSpectrum(density, \
-            dims=(300., 300., 300.), bins = 256)
-    l = 2*np.pi/k
+    l_list = np.logspace(np.log10(np.ceil(2.*300./256)), \
+                    np.log10(280.), 100)
+    powerSpec = powerSpectrum(density, \
+            dims=(300., 300., 300.), l_list=l_list)*(1+z)**2
 
     ## plot spectrum
-    ax.loglog(l, power, label = "%04d" % i)
+    ax.loglog(l_list, powerSpec, label = "%04d" % i)
 
     ## save to file
-    np.savez_compressed("spectrum%04d.npz" % i, power=power, l=l)
+    np.savez_compressed("spectrum%04d.npz" % i, \
+                    powerSpec=powerSpec, l=l_list)
 
     i += 1
 
