@@ -1,10 +1,11 @@
 """
-This script should be executed under the directory "256",
+This script will be executed under the directory "/scratch/users/phsun/256",
 which contains subdirectories "256_1", "256_2", etc.
 """
 
 import os
 
+os.chdir("/scratch/users/phsun/256")
 fout = open("parameters.txt", "w")
 param_dict = {"dataset":0, "lspike1":1, "lspike2":2, "lspike3":3, \
               "force_pnorm":4, "delta_l":5}
@@ -37,7 +38,7 @@ while os.path.isdir("256_%d" % i):
         elif line[0] == 'lspike3':
             a[param_dict["lspike3"]] = line[2]
         elif line[0] == 'force_pnorm':
-            a[param_dict["force_pnorm"]] = line[2]
+            a[param_dict["force_pnorm"]] = str(float(line[2]))
         elif line[0] == 'delta_l_over_l':
             a[param_dict["delta_l"]] = line[2]
 
