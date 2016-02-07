@@ -38,7 +38,9 @@ while os.path.isdir("256_%d" % i):
         elif line[0] == 'lspike3':
             a[param_dict["lspike3"]] = line[2]
         elif line[0] == 'force_pnorm':
-            a[param_dict["force_pnorm"]] = str(float(line[2]))
+            line[2] = '%.1e' % float(line[2])
+            line[2] = '{:>16}'.format(line[2]) 
+            a[param_dict["force_pnorm"]] = line[2]
         elif line[0] == 'delta_l_over_l':
             a[param_dict["delta_l"]] = line[2]
 
