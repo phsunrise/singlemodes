@@ -8,7 +8,7 @@ import os
 os.chdir("/scratch/users/phsun/256")
 fout = open("parameters.txt", "w")
 param_dict = {"dataset":0, "lspike1":1, "lspike2":2, "lspike3":3, \
-              "force_pnorm":4, "delta_l":5}
+              "force_pnorm":4, "delta_l":5, "FOF":6}
     # column numbers for parameters
 
 # write header
@@ -43,6 +43,15 @@ while os.path.isdir("256_%d" % i):
             a[param_dict["force_pnorm"]] = line[2]
         elif line[0] == 'delta_l_over_l':
             a[param_dict["delta_l"]] = line[2]
+    # END read parameter file
+    
+    # halos found?
+    if not os.path.isdir("256_%d/FOF" % i):
+        a[param_dict["FOF"]] = ' ' * 15 + 'N'
+    elif os.path.isfile("256_%d/FOF/NoHalos" % i):
+        a[param_dict["FOF"]] = ' ' * 15 + 'N'
+    else:
+        a[param_dict["FOF"]] = ' ' * 15 + 'Y'
 
     fout.write(''.join(a))
     fout.write('\n')

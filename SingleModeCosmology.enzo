@@ -48,13 +48,13 @@ MinimumOverDensityForRefinement = 2
 #dtDataDump = 50.
 CycleSkipDataDump = 30
 
-InlineHaloFinder               = 1
-HaloFinderSubfind              = 0
-HaloFinderCycleSkip            = 0
-HaloFinderRunAfterOutput       = 1
-HaloFinderOutputParticleList   = 0
-HaloFinderMinimumSize          = 50
-HaloFinderLinkingLength        = 0.100000
+#InlineHaloFinder               = 1
+#HaloFinderSubfind              = 0
+#HaloFinderCycleSkip            = 0
+#HaloFinderRunAfterOutput       = 1
+#HaloFinderOutputParticleList   = 0
+#HaloFinderMinimumSize          = 50
+#HaloFinderLinkingLength        = 0.100000
 
 OutputSmoothedDarkMatter = 0
 #WritePotential = 1

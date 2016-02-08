@@ -1,0 +1,18 @@
+# Column 1.  Center of mass (x)
+# Column 2.  Center of mass (y)
+# Column 3.  Center of mass (z)
+# Column 4.  Halo number
+# Column 5.  Number of particles
+# Column 6.  Halo mass [solar masses]
+# Column 7.  Virial mass [solar masses]
+# Column 8.  Stellar mass [solar masses]
+# Column 9.  Virial radius (r200) [kpc]
+# Column 10. Mean x-velocity [km/s]
+# Column 11. Mean y-velocity [km/s]
+# Column 12. Mean z-velocity [km/s]
+# Column 13. Velocity dispersion [km/s]
+# Column 14. Mean x-angular momentum [Mpc * km/s]
+# Column 15. Mean y-angular momentum [Mpc * km/s]
+# Column 16. Mean z-angular momentum [Mpc * km/s]
+# Column 17. Spin parameter
+#
