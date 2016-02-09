@@ -12,6 +12,8 @@
 
 #source $HOME/yt-x86_64/bin/activate
 
+cd $SCRATCH/256
+
 c=1
 while true
 do

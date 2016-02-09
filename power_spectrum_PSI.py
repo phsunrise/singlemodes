@@ -36,6 +36,6 @@ while os.path.isdir("DD%04d" % i):
     i += 1
 
 ax.set_xlabel("l (Mpc/h)")
-ax.set_ylabel("power")
+ax.set_ylabel("power*(1+z)^2")
 legend = plt.legend(loc = 'upper right', shadow = True)
 fig.savefig("spectrum_PSI.png")
