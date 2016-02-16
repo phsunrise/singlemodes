@@ -4,11 +4,14 @@ which contains subdirectories "256_1", "256_2", etc.
 """
 
 import os
+import glob
+import numpy as np
 
 os.chdir("/scratch/users/phsun/256")
 fout = open("parameters.txt", "w")
 param_dict = {"dataset":0, "lspike1":1, "lspike2":2, "lspike3":3, \
-              "force_pnorm":4, "delta_l":5, "FOF":6}
+              "force_pnorm":4, "delta_l":5, "FOF":6, "init_delta_rho":7, \
+              "final_delta_rho":8}
     # column numbers for parameters
 
 # write header
@@ -44,19 +47,24 @@ while os.path.isdir("256_%d" % i):
         elif line[0] == 'delta_l_over_l':
             a[param_dict["delta_l"]] = line[2]
     # END read parameter file
-    
-    # halos found?
-    if not os.path.isdir("256_%d/FOF" % i):
-        a[param_dict["FOF"]] = ' ' * 15 + 'N'
-    elif os.path.isfile("256_%d/FOF/NoHalos" % i):
-        a[param_dict["FOF"]] = ' ' * 15 + 'N'
-    else:
+    f.close()
+
+    # halo file exists?
+    if len(glob.glob("256_%d/FOFhalos_link_*.txt" % i)) > 0:
         a[param_dict["FOF"]] = ' ' * 15 + 'Y'
+    else:
+        a[param_dict["FOF"]] = ' ' * 15 + 'N'
+    
+    # density fluctuations
+    f = np.load("256_%d/max_delta_rho.npz" % i)
+    delta_rho = f["delta_rho"]
+    a[param_dict["init_delta_rho"]]='{:>16}'.format("%.3f" % delta_rho[1])
+    a[param_dict["final_delta_rho"]]='{:>16}'.format("%.3f" % delta_rho[-1])
+    f.close()
 
     fout.write(''.join(a))
     fout.write('\n')
 
-    f.close()
     i += 1
 
 fout.close()

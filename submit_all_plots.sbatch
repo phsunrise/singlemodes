@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#SBATCH --job-name=enzo
+#SBATCH --job-name=all_plots
 #SBATCH --output=sme.out
 #SBATCH --error=sme.err
 #SBATCH --time=5:00:00
@@ -21,8 +21,9 @@ do
         break
     fi
     cd 256_$c/
-    mv spectrum_PSI.png spectrum_PSI_old.png
-    python $HOME/singlemodes/power_spectrum_PSI.py
+#    mv spectrum_PSI.png spectrum_PSI_old.png
+#    python $HOME/singlemodes/power_spectrum_PSI.py
+    python $HOME/singlemodes/density_fluctuations.py 
 
     cd ../
     c=$[$c+1]

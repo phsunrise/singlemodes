@@ -24,10 +24,10 @@ while os.path.isdir("DD%04d" % i):
     l_list = np.logspace(np.log10(np.ceil(2.*300./256)), \
                     np.log10(280.), 100)
     powerSpec = powerSpectrum(density, \
-            dims=(300., 300., 300.), l_list=l_list)*(1+z)**2
+            dims=(300., 300., 300.), l_list=l_list)
 
     ## plot spectrum
-    ax.loglog(l_list, powerSpec, label = "%04d" % i)
+    ax.loglog(l_list, powerSpec*(1+z)**2, label = "%04d" % i)
 
     ## save to file
     np.savez_compressed("spectrum%04d.npz" % i, \
