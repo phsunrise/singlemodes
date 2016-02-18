@@ -1,7 +1,7 @@
 # Relevant Section of Enzo Paramter File (NOT COMPLETE!) 
 ProblemType                              = 30      // cosmology simulation
 TopGridRank                              = 3
-TopGridDimensions                        = 512 512 512 
+TopGridDimensions                        = 256 256 256
 SelfGravity                              = 1       // gravity on
 TopGridGravityBoundary                   = 0       // Periodic BC for gravity
 LeftFaceBoundaryCondition                = 3 3 3   // same for fluid
@@ -53,8 +53,8 @@ CycleSkipDataDump = 30
 #HaloFinderCycleSkip            = 0
 #HaloFinderRunAfterOutput       = 1
 #HaloFinderOutputParticleList   = 0
-#HaloFinderMinimumSize          = 10 
-#HaloFinderLinkingLength        = 0.200000
+#HaloFinderMinimumSize          = 50
+#HaloFinderLinkingLength        = 0.100000
 
 OutputSmoothedDarkMatter = 0
 #WritePotential = 1

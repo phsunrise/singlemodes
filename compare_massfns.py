@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import cm
 from fof_checkheader import checkheader
-from halomassfunctions import PSMassFn, STMassFn, JenkinsMassFn
+from halomassfunctions import PSMassFn, STMassFn
 
 #fof_file = "FOF/groups_00312.dat"
 #if not checkheader(fof_file):
@@ -32,9 +32,9 @@ data = np.genfromtxt("FOFhalos_link_0.2.txt", skip_header=3)
 masses = data[:,1]
 
 minmass = min(masses)
-maxmass = max(masses)*5
+maxmass = max(masses)
 
-bins = np.logspace(np.log10(minmass), np.log10(maxmass), 21)
+bins = np.logspace(np.log10(minmass), np.log10(maxmass), 31)
 binwidths = bins[1:] - bins[:-1]
 # calculate dn/dM
 hist = np.histogram(masses, bins=bins)[0]
@@ -43,7 +43,7 @@ for low, width, counts in zip(bins[:-1], binwidths, hist):
 hist = hist / binwidths / 300.**3
 
 plt.figure()
-plt.semilogy(np.log10(bins[:-1]), hist, 'bx--', \
+plt.semilogy(np.log10(bins[:-1]), hist, 'bo--', \
              label='counting')
 plt.xlabel("log10(M/Msun)")
 plt.ylabel("dn/dM")
@@ -61,35 +61,47 @@ powerSpec = np.genfromtxt("input_powerspec.txt", comments='#', usecols=(0,5))
 powerSpec[:,1] = powerSpec[:,1] * (256)**3 * (2*np.pi)**3
 
 # arrays to store mass functions
-PS_fn = np.zeros_like(binwidths)
-ST_fn = np.zeros_like(binwidths)
-J_fn = np.zeros_like(binwidths)
+PS_x = np.zeros_like(binwidths)
+ST_x = np.zeros_like(binwidths)
+PS_k = np.zeros_like(binwidths)
+ST_k = np.zeros_like(binwidths)
 
 rhomean = 3.965765e11   # unit: Msun/(Mpc/h)^3
 kmin = min(powerSpec[:,0])
 kmax = max(powerSpec[:,0])
+kmin = 2*np.pi/300.
+kmax = 2*np.pi/1.
 print "kmin=", kmin, "kmax=", kmax
 points = 500
 
 # iterate
 for i, M in enumerate(bins[:-1]):
     dM = bins[i+1]-bins[i]
-    PS_fn[i] = PSMassFn(powerSpec, M, dM,
+    PS_x[i] = PSMassFn(powerSpec, M, dM,
                 rhomean=rhomean, hlink=0.2,
-                kmin=kmin, kmax=kmax, points=points)
-    ST_fn[i] = STMassFn(powerSpec, M, dM,
+                kmin=kmin, kmax=kmax, points=points,
+                window='tophat_x')
+    ST_x[i] = STMassFn(powerSpec, M, dM,
                 rhomean=rhomean, hlink=0.2,
-                kmin=kmin, kmax=kmax, points=points)
-    #J_fn[i] = JenkinsMassFn(powerSpec, M, dM,
-    #            rhomean=rhomean, hlink=0.2,
-    #            kmin=kmin, kmax=kmax, points=500)
+                kmin=kmin, kmax=kmax, points=points,
+                window='tophat_x')
+    PS_k[i] = PSMassFn(powerSpec, M, dM,
+                rhomean=rhomean, hlink=0.2,
+                kmin=kmin, kmax=kmax, points=points,
+                window='tophat_k')
+    ST_k[i] = STMassFn(powerSpec, M, dM,
+                rhomean=rhomean, hlink=0.2,
+                kmin=kmin, kmax=kmax, points=points,
+                window='tophat_k')
 
-plt.semilogy(np.log10(bins[:-1]), PS_fn, 'ro--',\
-             label='P-S prediction')
-plt.semilogy(np.log10(bins[:-1]), ST_fn, 'y^--',\
-             label='S-T prediction')
-#plt.semilogy(np.log10(bins[:-1]), J_fn, 'ks--',\
-#             label='Jenkins prediction')
+plt.semilogy(np.log10(bins[:-1]), PS_x, 'r-',\
+             label='P-S x space tophat')
+plt.semilogy(np.log10(bins[:-1]), ST_x, 'y-',\
+             label='S-T x space tophat')
+plt.semilogy(np.log10(bins[:-1]), PS_k, 'g-',\
+             label='P-S k space tophat')
+plt.semilogy(np.log10(bins[:-1]), ST_k, 'k-',\
+             label='S-T k space tophat')
 
 plt.legend(loc='lower left')
 plt.savefig("halo_mass_fns.png")
