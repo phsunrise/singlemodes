@@ -8,7 +8,7 @@ def delta_critical(hlink):
     #return 1.686
     return 0.65296 / hlink**3 - 1.
 
-def GaussianWindow(k, V):
+def gaussian(k, V):
     R = (V / (2.*np.pi)**1.5) ** (1./3.)
     W = np.exp(- (k*R)**2 / 2.)
     return W
@@ -19,8 +19,36 @@ def tophat_xspace(k, V):
     return W
 
 def tophat_kspace(k, V):
-    R = (V / 6. / np.pi**2) ** (1./3.) # V=6*pi^2*R^3
+    R = (V / (6.*np.pi**2)) ** (1./3.) # V=6*pi^2*R^3
+    #R = V**(1./3.) / 2 / np.pi # V=(2*pi*R)^3
+    #R = (V / 3. / np.pi**3) ** (1./3.) # V=3*pi^3*R^3
     W = (abs(k * R) <= 1).astype(float)
+    return W
+
+def triangle_kspace(k, V):
+    R = (V / (24.*np.pi**2)) ** (1./3.) # V=24*pi^2*R^3
+    W = np.zeros_like(k)
+    for i, k_val in enumerate(k):
+        if abs(k_val * R) <= 1:
+            W[i] = 1 - k_val*R
+    return W
+
+def tukey_kspace(k, V, alpha=0.75):
+    # V=(12pi^5*R^3)/(pi^3-6pi*a^3+pi^3*a^3-6pi*a^2*cos[pi/a]
+    #               -3pi^2*a*sin[pi/a]+6a^3*sin[pi/a])  
+    V = V / (12*np.pi**5) * (np.pi**3 - 6*np.pi*alpha**3 + 
+            np.pi**3*alpha**3 - 6*np.pi*alpha**2*np.cos(np.pi/alpha) -
+            3*np.pi**2*alpha*np.sin(np.pi/alpha) + 
+            6*alpha**3*np.sin(np.pi/alpha))
+    R = V ** (1./3.)
+    W = np.zeros_like(k)
+    for i, k_val in enumerate(k):
+        if abs(k_val*R) <= alpha:
+            W[i] = 1
+        elif abs(k_val*R) <= 1:
+            W[i] = 0.5*(1 + np.cos(np.pi/(1-alpha)*(k_val*R-alpha)))
+        else:
+            W[i] = 0
     return W
 
 def sigma2(powerSpec, V, kmin, kmax, points=500,\
@@ -33,13 +61,21 @@ def sigma2(powerSpec, V, kmin, kmax, points=500,\
     lnk = np.linspace(np.log(kmin), np.log(kmax), points, \
             endpoint=False) + (np.log(kmax)-np.log(kmin))/points/2
     k = np.exp(lnk)
-
-    if window=='gaus':
-        W = GaussianWindow(k, V)
-    elif window=='tophat_x':
-        W = tophat_xspace(k, V)
-    elif window=='tophat_k':
-        W = tophat_kspace(k, V)
+    
+    if isinstance(window, str):
+        if window=='gaus':
+            W = gaussian(k, V)
+        elif window=='tophat_x':
+            W = tophat_xspace(k, V)
+        elif window=='tophat_k':
+            W = tophat_kspace(k, V)
+        elif window=='triangle_k':
+            W = triangle_kspace(k, V)
+        elif window=='tukey_k':
+            W = tukey_kspace(k, V)
+    elif isinstance(window, tuple):
+        if window[0]=='tukey_k':
+            W = tukey_kspace(k, V, window[1])
 
     integrand = k**3 * P(k) / (2.*np.pi**2) * np.abs(W)**2
 

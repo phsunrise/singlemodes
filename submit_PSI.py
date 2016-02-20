@@ -32,7 +32,7 @@ while os.path.isdir("DD%04d" % i):
     f.write("#SBATCH --job-name=PSI%04d\n" % i)
     f.write("#SBATCH --output=sme.out\n")
     f.write("#SBATCH --error=sme.err\n")
-    f.write("#SBATCH --time=1:00:00\n")
+    f.write("#SBATCH --time=2:00:00\n")
     f.write("#SBATCH --qos=iric\n")
     f.write("#SBATCH --mem=60000\n")
     f.write("#SBATCH --partition=iric\n")

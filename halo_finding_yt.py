@@ -11,6 +11,6 @@ last -= 1
 
 ds = yt.load("DD%04d/data%04d" % (last, last))
 
-link = 0.2
+link = 0.3
 halos = FOFHaloFinder(ds, link=link, padding=0.02)
 halos.write_out("FOFhalos_link_%.1f.txt" % link)

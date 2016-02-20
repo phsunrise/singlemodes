@@ -22,7 +22,7 @@ while os.path.isdir("DD%04d" % i):
 
     ## calculate power spectrum
     l_list = np.logspace(np.log10(np.ceil(2.*300./256)), \
-                    np.log10(280.), 100)
+                    np.log10(270.), 100)
     powerSpec = powerSpectrum(density, \
             dims=(300., 300., 300.), l_list=l_list)
 

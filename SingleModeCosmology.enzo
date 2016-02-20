@@ -1,7 +1,7 @@
 # Relevant Section of Enzo Paramter File (NOT COMPLETE!) 
 ProblemType                              = 30      // cosmology simulation
 TopGridRank                              = 3
-TopGridDimensions                        = 256 256 256
+TopGridDimensions                        = 256 256 256 
 SelfGravity                              = 1       // gravity on
 TopGridGravityBoundary                   = 0       // Periodic BC for gravity
 LeftFaceBoundaryCondition                = 3 3 3   // same for fluid
@@ -25,7 +25,7 @@ ComovingCoordinates                      = 1       // Expansion ON
 CosmologyOmegaMatterNow                  = 1
 CosmologyOmegaLambdaNow                  = 0
 CosmologyHubbleConstantNow               = 0.7     // in 100 km/s/Mpc
-CosmologyComovingBoxSize                 = 300    // in Mpc/h
+CosmologyComovingBoxSize                 = 300 // in Mpc/h
 CosmologyMaxExpansionRate                = 0.015   // maximum allowed delta(a)/a
 CosmologyInitialRedshift                 = 100      //
 CosmologyFinalRedshift                   = 0       //

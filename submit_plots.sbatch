@@ -15,8 +15,7 @@
 echo "working directory="$SLURM_SUBMIT_DIR
 
 python $HOME/singlemodes/power_spectrum_PSI.py
-#python $HOME/singlemodes/power_spectrum_cic.py
-#python $HOME/singlemodes/yt_plots.py
 python $HOME/singlemodes/sliceplots.py
 python $HOME/singlemodes/projectionplots.py
 python $HOME/singlemodes/density_fluctuations.py
+python $HOME/singlemodes/compare_inputpowerspec.py

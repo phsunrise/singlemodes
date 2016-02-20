@@ -57,8 +57,7 @@ nx = ds.domain_dimensions[0]
 ## set voxelization options 
 order = 1
 tol = 1000
-gridsize = 256
-grid = (gridsize, gridsize, gridsize)
+grid = (nx, nx, nx)
 window = box
 fields = {'m': None}
 

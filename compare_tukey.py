@@ -6,6 +6,8 @@ from matplotlib import cm
 from fof_checkheader import checkheader
 from halomassfunctions import PSMassFn, STMassFn
 
+plt.figure(figsize=(20,20))
+
 #fof_file = "FOF/groups_00312.dat"
 #if not checkheader(fof_file):
 #    print "Header for file, ", fof_file, " is different. Exiting..."
@@ -28,8 +30,7 @@ from halomassfunctions import PSMassFn, STMassFn
 #        masses.append(line[5]) # halo mass is stored in column 6
 ### END file loop; file closed
 
-hlink = 0.5
-data = np.genfromtxt("FOFhalos_link_%.1f.txt" % hlink, skip_header=3)
+data = np.genfromtxt("FOFhalos_link_0.2.txt", skip_header=3)
 masses = data[:,1]
 
 minmass = min(masses)
@@ -43,7 +44,6 @@ for low, width, counts in zip(bins[:-1], binwidths, hist):
     print low, width, "counts=", counts, counts/width
 hist = hist / binwidths / 300.**3
 
-plt.figure()
 plt.semilogy(np.log10(bins[:-1]), hist, 'bo--', \
              label='counting')
 plt.xlabel("log10(M/Msun)")
@@ -62,12 +62,12 @@ powerSpec = np.genfromtxt("input_powerspec.txt", comments='#', usecols=(0,5))
 powerSpec[:,1] = powerSpec[:,1] * (256)**3 * (2*np.pi)**3
 
 # arrays to store mass functions
-PS_x = np.zeros_like(binwidths)
-ST_x = np.zeros_like(binwidths)
-PS_k = np.zeros_like(binwidths)
-ST_k = np.zeros_like(binwidths)
-PS_t = np.zeros_like(binwidths)
-ST_t = np.zeros_like(binwidths)
+PS_t = []
+ST_t = []
+alphas = [0.3, 0.330, 0.37, 0.4, 0.5, 0.6]
+for alpha in alphas:
+    PS_t.append(np.zeros_like(binwidths))
+    ST_t.append(np.zeros_like(binwidths))
 
 rhomean = 3.965765e11   # unit: Msun/(Mpc/h)^3
 kmin = min(powerSpec[:,0])
@@ -80,44 +80,22 @@ points = 500
 # iterate
 for i, M in enumerate(bins[:-1]):
     dM = bins[i+1]-bins[i]
-    PS_x[i] = PSMassFn(powerSpec, M, dM,
-                rhomean=rhomean, hlink=hlink,
-                kmin=kmin, kmax=kmax, points=points,
-                window='tophat_x')
-    ST_x[i] = STMassFn(powerSpec, M, dM,
-                rhomean=rhomean, hlink=hlink,
-                kmin=kmin, kmax=kmax, points=points,
-                window='tophat_x')
-    PS_k[i] = PSMassFn(powerSpec, M, dM,
-                rhomean=rhomean, hlink=hlink,
-                kmin=kmin, kmax=kmax, points=points,
-                window='tophat_k')
-    ST_k[i] = STMassFn(powerSpec, M, dM,
-                rhomean=rhomean, hlink=hlink,
-                kmin=kmin, kmax=kmax, points=points,
-                window='tophat_k')
-    PS_t[i] = PSMassFn(powerSpec, M, dM,
-                rhomean=rhomean, hlink=hlink,
-                kmin=kmin, kmax=kmax, points=points,
-                window='tukey_k')
-    ST_t[i] = STMassFn(powerSpec, M, dM,
-                rhomean=rhomean, hlink=hlink,
-                kmin=kmin, kmax=kmax, points=points,
-                window='tukey_k')
+    for i_alpha, alpha in enumerate(alphas):
+        PS_t[i_alpha][i] = PSMassFn(powerSpec, M, dM,
+                    rhomean=rhomean, hlink=0.2,
+                    kmin=kmin, kmax=kmax, points=points,
+                    window=('tukey_k', alpha))
+        ST_t[i_alpha][i] = STMassFn(powerSpec, M, dM,
+                    rhomean=rhomean, hlink=0.2,
+                    kmin=kmin, kmax=kmax, points=points,
+                    window=('tukey_k',alpha))
 
-plt.semilogy(np.log10(bins[:-1]), PS_x, 'r-',\
-             label='P-S x space tophat')
-plt.semilogy(np.log10(bins[:-1]), ST_x, 'y-',\
-             label='S-T x space tophat')
-plt.semilogy(np.log10(bins[:-1]), PS_k, 'g-',\
-             label='P-S k space tophat')
-plt.semilogy(np.log10(bins[:-1]), ST_k, 'k-',\
-             label='S-T k space tophat')
-plt.semilogy(np.log10(bins[:-1]), PS_t, 'c-',\
-             label='P-S k space tukey')
-plt.semilogy(np.log10(bins[:-1]), ST_t, 'm-',\
-             label='S-T k space tukey')
+for i_alpha, alpha in enumerate(alphas):
+    plt.semilogy(np.log10(bins[:-1]), PS_t[i_alpha], \
+                 label='P-S tukey %.2f' % alpha)
+    plt.semilogy(np.log10(bins[:-1]), ST_t[i_alpha], \
+                 label='S-T tukey %.2f' % alpha)
 plt.ylim(min(hist)/10., max(hist)*10.)
 
 plt.legend(loc='lower left')
-plt.savefig("halo_mass_fns_link_%.1f.png" % hlink)
+plt.savefig("halo_mass_tukey.png")
